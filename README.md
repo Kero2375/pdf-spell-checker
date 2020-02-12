@@ -6,7 +6,7 @@
 - Language_check (pip install language-check)
 
 ## usage:
-0. <optional> open the script with any text editor
+0. (optional) open the script with any text editor
 	- add or remove rules to check
 	- add or remove ignored words
 1. download _check.py_
