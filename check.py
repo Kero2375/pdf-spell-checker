@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
-# Calcolare l'indice di Leggibilita' di un PDF
-# aimriccardop & atk23 (aka AnnaP) x TEAM_N0
+# PDF spell checker
+# Kero2375
 
 import sys
 try:
@@ -10,14 +10,10 @@ try:
 except ImportError:
     sys.exit("Please install textract and language-check before (pip3 install *). Or mabe you're not using python3.")
 
-
 try:
 	nf = str(sys.argv[1]) 
 except IndexError:
-	sys.exit("Please add filename")
-
-print ('selected file: ' + nf)
-text = textract.process(nf, method='pdftotext')
+	sys.exit("Please add filename")	
 
 # RULES SET:
 rules = [
@@ -47,32 +43,35 @@ ignore = [
         'Zucchetti',
         'Grafana'
         ]
-
+	
+print ('selected file: ' + nf)
+text = textract.process(nf, method='pdftotext') # extract text from pdf
 text = text.decode('utf-8')
 
 print('loading...')
-tool = language_check.LanguageTool('it-IT')
-matches = tool.check(text)
-file = open('log.txt', 'w')
+tool = language_check.LanguageTool('it-IT') # language
+matches = tool.check(text) # all errors
+file = open('log.txt', 'w') # log file
 
 for m in matches:
-    if(m.ruleId in rules):
-        if (m.ruleId == 'COMMA_PARENTHESIS_WHITESPACE'):
+    if(m.ruleId in rules): # print just selected rules
+	# avoid reporting '. .' (eg. in the index)
+        if (m.ruleId == 'COMMA_PARENTHESIS_WHITESPACE'): 
             if('. .' not in str(m)):
-                file.write(str(m))
-                file.write('\n\n')
-
+                file.write(str(m) + '\n\n)
+	
+	# if any ignored word into message text, don't print it
         elif (m.ruleId == 'MORFOLOGIK_RULE_IT_IT'):
             t=0
             for i in ignore:
                 if(i in str(m)):
                     t = 1
             if(t == 0):
-                file.write(str(m))
-                file.write('\n\n')
-
+                file.write(str(m) + '\n\n)
+	
+	# print everything else
         else:
-            file.write(str(m))
-            file.write('\n\n')
+            file.write(str(m) + '\n\n)
+		       
 file.close()
 print('all done! check the file log.txt')
