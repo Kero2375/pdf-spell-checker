@@ -58,7 +58,7 @@ for m in matches:
 	# avoid reporting '. .' (eg. in the index)
         if (m.ruleId == 'COMMA_PARENTHESIS_WHITESPACE'): 
             if('. .' not in str(m)):
-                file.write(str(m) + '\n\n)
+                file.write(str(m) + '\n\n')
 	
 	# if any ignored word into message text, don't print it
         elif (m.ruleId == 'MORFOLOGIK_RULE_IT_IT'):
@@ -67,11 +67,11 @@ for m in matches:
                 if(i in str(m)):
                     t = 1
             if(t == 0):
-                file.write(str(m) + '\n\n)
+                file.write(str(m) + '\n\n')
 	
 	# print everything else
         else:
-            file.write(str(m) + '\n\n)
+            file.write(str(m) + '\n\n')
 		       
 file.close()
 print('all done! check the file log.txt')
