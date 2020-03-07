@@ -14,3 +14,5 @@
 3. open folder in terminal
 4. type "python3 check.py _filename.pdf_"
 5. errors will be reported in _log.txt_
+
+~Kero2375
